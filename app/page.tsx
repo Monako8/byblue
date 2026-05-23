@@ -467,7 +467,7 @@ const posts: PostData[] = [
     avatar: "/images/avatars.webp",
     time: "08.05.2026",
     category: "design",
-    text: "Услуга: Лизайн метафорических карт (МАК)",
+    text: "Услуга: Дизайн метафорических карт (МАК)",
     media: [
       { src: "/card/1.webp", type: "image" },
       { src: "/card/2.webp", type: "image" },
@@ -542,7 +542,7 @@ export default function CelestinabluePage() {
               <div className="p-6 text-center">
                 <button 
                   onClick={() => setVisibleCount(prev => prev + 5)}
-                  className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
+                  className="px-4 py-2 bg-[#93C3EF] text-white rounded-full hover:bg-[#7db1e8] transition"
                 >
                   Загрузить еще
                 </button>
