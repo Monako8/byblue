@@ -1,7 +1,6 @@
-"use client"
+'use client'
 
-import { useState, useCallback } from "react"
-
+import { useState, useCallback, useMemo, memo } from "react"
 import { ProfileHeader } from "@/components/profile-header"
 import { TabsNavigation, type TabType } from "@/components/tabs-navigation"
 import { PostCard, type PostData, type MediaItem } from "@/components/post-card"
@@ -16,18 +15,7 @@ const posts: PostData[] = [
     avatar: "/images/avatars.webp",
     time: "закреплено",
     pinned: true,
-    text: `✦ ДОБРО ПОЖАЛОВАТЬ В МОЁ ПОРТФОЛИО ✦
-
-🖌 ЧТО Я ДЕЛАЮ:
-
-🔵 Иллюстрация — персонажи, обложки, арты для соцсетей
-🌸 Дизайн — логотипы, фирменный стиль, упаковка
-💠 Web — лендинги, сайты-портфолио, UI/UX
-💙 Концепт-арт — персонажи для игр, окружение
-
-📧 Открыта к комиссиям и сотрудничеству
-
-Для заказа пишите в форму внизу страницы 💙`,
+    text: `✦ ДОБРО ПОЖАЛОВАТЬ В МОЁ ПОРТФОЛИО ✦\n\n🖌 ЧТО Я ДЕЛАЮ:\n\n🔵 Иллюстрация — персонажи, обложки, арты для соцсетей\n🌸 Дизайн — логотипы, фирменный стиль, упаковка\n💠 Web — лендинги, сайты-портфолио, UI/UX\n💙 Концепт-арт — персонажи для игр, окружение\n\n📧 Открыта к комиссиям и сотрудничеству\n\nДля заказа пишите в форму внизу страницы 💙`,
     likes: 567,
     comments: 89,
     reposts: 45,
@@ -38,12 +26,7 @@ const posts: PostData[] = [
     avatar: "/images/avatars.webp",
     time: "1 дн.",
     category: "art",
-    text: `Процесс отрисовки персонажа
-
-1. Скетчи и поиск формы
-2. ЧБ
-3. Цвет 
-4. Финализация`,
+    text: "Процесс отрисовки персонажа\n\n1. Скетчи и поиск формы\n2. ЧБ\n3. Цвет \n4. Финализация",
     media: [
       { src: "/images/charactersone.webp", type: "image" },
       { src: "/images/characterstwo.webp", type: "image" },
@@ -54,14 +37,13 @@ const posts: PostData[] = [
     comments: 67,
     reposts: 25,
   },
-    {
+  {
     id: "design-1",
     author: "Celestinablue",
     avatar: "/images/avatars.webp",
     time: "2 дн.",
     category: "design",
-    text: `
-`,
+    text: "",
     media: [
       { src: "/images/onecat.webp", type: "image" },
       { src: "/images/twocat.webp", type: "image" },
@@ -72,18 +54,13 @@ const posts: PostData[] = [
     comments: 67,
     reposts: 25,
   },
-    {
+  {
     id: "art-2",
     author: "Celestinablue",
     avatar: "/images/avatars.webp",
     time: "4 дн.",
     category: "art",
-    text: `Процесс работы над портретом в 4 этапа
-
-1. Фотография
-2. Быстрый набросок
-3. Свет и тень 
-4. Финализация,детали`,
+    text: "Процесс работы над портретом в 4 этапа\n\n1. Фотография\n2. Быстрый набросок\n3. Свет и тень \n4. Финализация,детали",
     media: [
       { src: "/images/ref.webp", type: "image" },
       { src: "/images/refone.webp", type: "image" },
@@ -91,7 +68,7 @@ const posts: PostData[] = [
       { src: "/images/reftree.webp", type: "image" },
     ],
     likes: 700,
-    comments:50,
+    comments: 50,
     reposts: 19,
   },
   {
@@ -100,8 +77,7 @@ const posts: PostData[] = [
     avatar: "/images/avatars.webp",
     time: "6 дн.",
     category: "art",
-    text: `Услуга: Мемы и персонажи
-Создаю уникальных персонажей для мемов, стикеров и контента. Вот примеры моих работ:`,
+    text: "Услуга: Мемы и персонажи\nСоздаю уникальных персонажей для мемов, стикеров и контента. Вот примеры моих работ:",
     media: [
       { src: "/images/memc.webp", type: "image" },
       { src: "/images/memf.webp", type: "image" },
@@ -116,29 +92,12 @@ const posts: PostData[] = [
     comments: 50,
     reposts: 20,
   },
-{
+  {
     id: "reviews",
     author: "Celestinablue",
     avatar: "/images/avatars.webp",
     time: "6 дн.",
-    text: `Отзывы клиентов 💭
-
-💙💙💙💙💙 "Кристина справилась на отлично, сразу поняли друг друга, заказ выполнен оперативно, все супер, рекомендую!" — @Katrin_Lisica
-
-💙💙💙💙💙 "Большое спасибо, получился очень крутой аватар из детского рисунка, все очень очень рады)))" — @AlexanderFin
-
-💙💙💙💙💙 "Отличная работа! Сложный проект выполнен точно по ТЗ и в короткий срок. Качественные исходники, продуманные варианты." — @andbea713
-
-💙💙💙💙💙 "Обратился за бейджами и остался в восторге! Как будто вытащила идею из моей головы. Спасибо за оперативность!" — @berkovvadim
-
-💙💙💙💙💙 "Весь заказ был сделан на высшем уровне! Правки над персонажем были сделаны очень быстро, пришли к лучшему решению." — @DyxDoma
-
-💙💙💙💙💙 "Всё качественно. При необходимости можно внести правки, пока итоговый продукт вас не устроит. Рекомендую! ⚡" — @Black_Birzha
-
-💙💙💙💙💙 "Заказывали 3D анимационные ролики наших купелей. Исполнительницу отобрали на основе конкурса. Она выполнила все наши пожелания по проекту и выпустила ролики ранее установленных сроков." — @Дмитрий
-
-Благодарю всех за доверие! Посмотреть <a href="https://kwork.ru/user/Celestinablue" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: underline; font-weight: 600;">все отзывы</a> можно на бирже. 💙`,
-
+    text: `Отзывы клиентов 💭\n\n💙💙💙💙💙 "Кристина справилась на отлично, сразу поняли друг друга, заказ выполнен оперативно, все супер, рекомендую!" — @Katrin_Lisica\n\n💙💙💙💙💙 "Большое спасибо, получился очень крутой аватар из детского рисунка, все очень очень рады)))" — @AlexanderFin\n\n💙💙💙💙💙 "Отличная работа! Сложный проект выполнен точно по ТЗ и в короткий срок. Качественные исходники, продуманные варианты." — @andbea713\n\n💙💙💙💙💙 "Обратился за бейджами и остался в восторге! Как будто вытащила идею из моей головы. Спасибо за оперативность!" — @berkovvadim\n\n💙💙💙💙💙 "Весь заказ был сделан на высшем уровне! Правки над персонажем были сделаны очень быстро, пришли к лучшему решению." — @DyxDoma\n\n💙💙💙💙💙 "Всё качественно. При необходимости можно внести правки, пока итоговый продукт вас не устроит. Рекомендую! ⚡" — @Black_Birzha\n\n💙💙💙💙💙 "Заказывали 3D анимационные ролики наших купелей. Исполнительницу отобрали на основе конкурса. Она выполнила все наши пожелания по проекту и выпустила ролики ранее установленных сроков." — @Дмитрий\n\nБлагодарю всех за доверие! Посмотреть <a href="https://kwork.ru/user/Celestinablue" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: underline; font-weight: 600;">все отзывы</a> можно на бирже. 💙`,
     media: [
       { src: "/images/a.webp", type: "image" },
       { src: "/images/f.webp", type: "image" },
@@ -148,7 +107,6 @@ const posts: PostData[] = [
       { src: "/images/I.webp", type: "image" },
       { src: "/images/g.webp", type: "image" },
     ],
-
     likes: 445,
     comments: 78,
     reposts: 34,
@@ -158,52 +116,18 @@ const posts: PostData[] = [
     author: "Celestinablue",
     avatar: "/images/avatars.webp",
     time: "12.05.2026",
-    text: `❔ Часто задаваемые вопросы ❔
-
-💭 NFT коллекции?
-→ Создаю базу и атрибуты. Все слои передаются в идеальном порядке для генерации.
-
-💭 Ваш стиль?
-→ Яркий 2D арт, полуреализм и стилизация. От аватарок до игровых локаций.
-
-💭 Дизайн сайта?
-→ Уникальные иллюстрации и интерфейсы, отрисованные вручную под проект.
-
-💭 Какие сроки?
-→ Скетч 1-2 дня. Финальный арт 3-7 дней. Сайт — от 15 рабочих дней.
-
-💭 Про правки
-→ На этапе скетча — безлимит. После покраса — до 3 небольших правок бесплатно.
-
-💭 Об оплате
-→ Оплата 50%. До начала эскиза.
-
-💭 Какие форматы?
-→ Исходники PSD, Ai по слоям и другие необходимые, a также финалы в PNG, JPG и SVG для веба.
-
-💭 Срочный заказ?
-→ Да, ускоренная работа возможна c доплатой 30-50% при наличии окна.
-
-💭 Права на арт?
-→ Вы получаете полные коммерческие права на использование арта.
-
-Остались вопросы? Пишите в личные сообщения! 📧`,
+    text: "❔ Часто задаваемые вопросы ❔\n\n💭 NFT коллекции?\n→ Создаю базу и атрибуты. Все слои передаются в идеальном порядке для генерации.\n\n💭 Ваш стиль?\n→ Яркий 2D арт, полуреализм и стилизация. От аватарок до игровых локаций.\n\n💭 Дизайн сайта?\n→ Уникальные иллюстрации и интерфейсы, отрисованные вручную под проект.\n\n💭 Какие сроки?\n→ Скетч 1-2 дня. Финальный арт 3-7 дней. Сайт — от 15 рабочих дней.\n\n💭 Про правки\n→ На этапе скетча — безлимит. После покраса — до 3 небольших правок бесплатно.\n\n💭 Об оплате\n→ Оплата 50%. До начала эскиза.\n\n💭 Какие форматы?\n→ Исходники PSD, Ai по слоям и другие необходимые, a также финалы в PNG, JPG и SVG для веба.\n\n💭 Срочный заказ?\n→ Да, ускоренная работа возможна c доплатой 30-50% при наличии окна.\n\n💭 Права на арт?\n→ Вы получаете полные коммерческие права на использование арта.\n\nОстались вопросы? Пишите в личные сообщения! 📧",
     likes: 234,
     comments: 45,
     reposts: 12,
   },
-    {
+  {
     id: "faq-1",
     author: "Celestinablue",
     avatar: "/images/avatars.webp",
     time: "12.05.2026",
-    text: `📌 Что обязательно стоит прописать в ТЗ на разработку персонажа?
-Чтобы результат совпал с вашей задумкой на все 100%, а процесс был быстрым и комфортным, я подготовила наглядную шпаргалку-картинку!
-С ней составить ТЗ (техническое задание) будет проще простого.
-`,
-    media: [
-      { src: "/images/tz.webp", type: "image" },
-    ],
+    text: "📌 Что обязательно стоит прописать в ТЗ на разработку персонажа?\nЧтобы результат совпал с вашей задумкой на все 100%, а процесс был быстрым и комфортным, я подготовила наглядную шпаргалку-картинку!\nС ней составить ТЗ (техническое задание) будет проще простого.",
+    media: [{ src: "/images/tz.webp", type: "image" }],
     likes: 5499,
     comments: 300,
     reposts: 60,
@@ -214,11 +138,7 @@ const posts: PostData[] = [
     avatar: "/images/avatars.webp",
     time: "12.05.2026",
     category: "animation",
-    text: `Покадовая анимация логотипа
-
- Процесс включает разработку ключевых кадров, работу с таймингом и экспорт в различные форматы для web и соцсетей.
-
-Нажмите для просмотра`,
+    text: "Покадовая анимация логотипа\n\nПроцесс включает разработку ключевых кадров, работу с таймингом и экспорт в различные форматы для web и соцсетей.\n\nНажмите для просмотра",
     media: [
       { src: "https://e.radikal.host/2026/02/20/she-plays_202602200007_22432.gif", preview: "https://e.radikal.host/2026/02/15/BEZ-IMISISENI-1.webp", type: "gif" },
       { src: "https://e.radikal.host/2026/02/15/ILLYSTRATIY_BEZ_NAZVANIY-1.gif", preview: "https://e.radikal.host/2026/02/15/ILLYSTRATIY_BEZ_NAZVANIY-122fdf984e12c5dab.webp", type: "gif" },
@@ -238,11 +158,7 @@ const posts: PostData[] = [
     avatar: "/images/avatars.webp",
     time: "10.05.2026",
     category: "design",
-    text: `Дизайн иконок для мобильных приложений
-
-* разработка по сетке
-* чб логотип
-* любой логотип можно купить`,
+    text: "Дизайн иконок для мобильных приложений\n\n* разработка по сетке\n* чб логотип\n* любой логотип можно купить",
     media: [
       { src: "/images/final.webp", type: "image" },
       { src: "/images/coffee.webp", type: "image" },
@@ -265,8 +181,7 @@ const posts: PostData[] = [
     avatar: "/images/avatars.webp",
     time: "09.05.2026",
     category: "art",
-    text: `Цифровые иллюстрации на любую тему.
-`,
+    text: "Цифровые иллюстрации на любую тему.",
     media: [
       { src: "/images/assa.webp", type: "image" },
       { src: "/images/fruit.webp", type: "image" },
@@ -280,14 +195,13 @@ const posts: PostData[] = [
     comments: 45,
     reposts: 8,
   },
-    {
+  {
     id: "art-5",
     author: "Celestinablue",
     avatar: "/images/avatars.webp",
     time: "09.05.2026",
     category: "art",
-    text: `Цифровые иллюстрации на любую тему №2.
-`,
+    text: "Цифровые иллюстрации на любую тему №2.",
     media: [
       { src: "/images/dfgfh.webp", type: "image" },
       { src: "/images/dsfdsf.webp", type: "image" },
@@ -311,8 +225,7 @@ const posts: PostData[] = [
     avatar: "/images/avatars.webp",
     time: "08.05.2026",
     category: "art",
-    text: `Цифровые портреты №2.
-`,
+    text: "Цифровые портреты №2.",
     media: [
       { src: "/images/fdsf.webp", type: "image" },
       { src: "/images/fdsg.webp", type: "image" },
@@ -335,8 +248,7 @@ const posts: PostData[] = [
     avatar: "/images/avatars.webp",
     time: "08.05.2026",
     category: "web",
-    text: `Лендинг 
-Минималистичный дизайн лендинга для компании POLARSPA.`,
+    text: "Лендинг \nМинималистичный дизайн лендинга для компании POLARSPA.",
     media: [
       { src: "/images/qone.webp", type: "image" },
       { src: "/images/qtwo.webp", type: "image" },
@@ -349,14 +261,13 @@ const posts: PostData[] = [
     comments: 23,
     reposts: 12,
   },
-    {
+  {
     id: "web-2",
     author: "Celestinablue",
     avatar: "/images/avatars.webp",
     time: "08.05.2026",
     category: "web",
-    text: `Презентационный сайт художника-дизайнера BABYBLUE (черновик)
-`,
+    text: "Презентационный сайт художника-дизайнера BABYBLUE (черновик)",
     media: [
       { src: "/images/bbone.webp", type: "image" },
       { src: "/images/bbtw.webp", type: "image" },
@@ -369,14 +280,13 @@ const posts: PostData[] = [
     comments: 45,
     reposts: 12,
   },
-    {
+  {
     id: "design-3",
     author: "Celestinablue",
     avatar: "/images/avatars.webp",
     time: "08.05.2026",
     category: "design",
-    text: `Услуга: Стикеры
-Создаю стикеры для любых соц.сетей. Вот примеры моих работ:`,
+    text: "Услуга: Стикеры\nСоздаю стикеры для любых соц.сетей. Вот примеры моих работ:",
     media: [
       { src: "/images/Stikone.webp", type: "image" },
       { src: "/images/stiktwo.webp", type: "image" },
@@ -390,15 +300,13 @@ const posts: PostData[] = [
     comments: 50,
     reposts: 20,
   },
-      {
+  {
     id: "design-4",
     author: "Celestinablue",
     avatar: "/images/avatars.webp",
     time: "07.05.2026",
     category: "design",
-    text: `Услуга: Панели для twitch-канала
-    Создаю панели для любых соц.сетей. Вот примеры моих работ:
-`,
+    text: "Услуга: Панели для twitch-канала\nСоздаю панели для любых соц.сетей. Вот примеры моих работ:",
     media: [
       { src: "/images/CVAYVAYSYCS.webp", type: "image" },
       { src: "/images/CYMSMCMSCSYCS.webp", type: "image" },
@@ -411,14 +319,13 @@ const posts: PostData[] = [
     comments: 45,
     reposts: 12,
   },
-        {
+  {
     id: "design-5",
     author: "Celestinablue",
     avatar: "/images/avatars.webp",
     time: "29.04.2026",
     category: "design",
-    text: ` Календарь для киберспортивной команды PAFOX
-`,
+    text: "Календарь для киберспортивной команды PAFOX",
     media: [
       { src: "/images/odin.webp", type: "image" },
       { src: "/images/dva.webp", type: "image" },
@@ -450,14 +357,13 @@ const posts: PostData[] = [
     comments: 45,
     reposts: 12,
   },
-    {
+  {
     id: "art-7",
     author: "Celestinablue",
     avatar: "/images/avatars.webp",
     time: "22.04.2026",
     category: "art",
-    text: `NFT - коллекции,генеративное искусство.
-`,
+    text: "NFT - коллекции, генеративное искусство.",
     media: [
       { src: "/images/nftone.webp", type: "image" },
       { src: "/images/nfttwo.webp", type: "image" },
@@ -478,14 +384,13 @@ const posts: PostData[] = [
     comments: 90,
     reposts: 44,
   },
-      {
+  {
     id: "art-8",
     author: "Celestinablue",
     avatar: "/images/avatars.webp",
     time: "22.04.2026",
     category: "art",
-    text: `Концепт-арт персонажа в разных ракурсах.
-`,
+    text: "Концепт-арт персонажа в разных ракурсах.",
     media: [
       { src: "/consept/1.webp", type: "image" },
       { src: "/consept/2.webp", type: "image" },
@@ -501,15 +406,13 @@ const posts: PostData[] = [
     comments: 40,
     reposts: 15,
   },
-      {
+  {
     id: "web-3",
     author: "Celestinablue",
     avatar: "/images/avatars.webp",
     time: "08.05.2026",
     category: "web",
-    text: ` Услуга: Комплексная разработка айдентики и веб-дизайна (Brand Design / UI/UX дизайн)
-Для проекта «Стома-Сервис»: Ребрендинг и разработка дизайн-системы сайта.
-`,
+    text: "Услуга: Комплексная разработка айдентики и веб-дизайна (Brand Design / UI/UX дизайн)\nДля проекта «Стома-Сервис»: Ребрендинг и разработка дизайн-системы сайта.",
     media: [
       { src: "/stoma/1.webp", type: "image" },
       { src: "/stoma/2.webp", type: "image" },
@@ -518,14 +421,13 @@ const posts: PostData[] = [
     comments: 45,
     reposts: 12,
   },
-        {
+  {
     id: "design-6",
     author: "Celestinablue",
     avatar: "/images/avatars.webp",
     time: "08.05.2026",
     category: "design",
-    text: ` Услуга: Разработка айдентики и мерча для проекта «ИграБезНенависти». (Brand Design)
-`,
+    text: "Услуга: Разработка айдентики и мерча для проекта «ИграБезНенависти». (Brand Design)",
     media: [
       { src: "/gamenot/1.webp", type: "image" },
       { src: "/gamenot/2.webp", type: "image" },
@@ -534,14 +436,13 @@ const posts: PostData[] = [
     comments: 45,
     reposts: 12,
   },
-        {
+  {
     id: "art-9",
     author: "Celestinablue",
     avatar: "/images/avatars.webp",
     time: "22.04.2026",
     category: "art",
-    text: `Услуга: Концепт-арт.
-`,
+    text: "Услуга: Концепт-арт.",
     media: [
       { src: "/consepttwo/1.webp", type: "image" },
       { src: "/consepttwo/2.webp", type: "image" },
@@ -560,14 +461,13 @@ const posts: PostData[] = [
     comments: 40,
     reposts: 15,
   },
-        {
+  {
     id: "design-7",
     author: "Celestinablue",
     avatar: "/images/avatars.webp",
     time: "08.05.2026",
     category: "design",
-    text: ` Услуга: Лизайн метафорических карт (МАК)
-`,
+    text: "Услуга: Лизайн метафорических карт (МАК)",
     media: [
       { src: "/card/1.webp", type: "image" },
       { src: "/card/2.webp", type: "image" },
@@ -584,14 +484,18 @@ const posts: PostData[] = [
   },
 ]
 
+const MemoizedPostCard = memo(PostCard)
+
 export default function CelestinabluePage() {
   const [activeTab, setActiveTab] = useState<TabType>("home")
+  const [visibleCount, setVisibleCount] = useState(5)
   const [lightboxMedia, setLightboxMedia] = useState<MediaItem[]>([])
   const [lightboxIndex, setLightboxIndex] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
 
   const handleTabChange = useCallback((tab: TabType) => {
     setActiveTab(tab)
+    setVisibleCount(5)
     window.scrollTo(0, 0)
   }, [])
 
@@ -601,48 +505,55 @@ export default function CelestinabluePage() {
     setLightboxOpen(true)
   }, [])
 
-  const filteredPosts = activeTab === "home" || activeTab === "contacts"
-    ? posts
-    : posts.filter(post => post.category === activeTab)
+  const filteredPosts = useMemo(() => {
+    return activeTab === "home" || activeTab === "contacts"
+      ? posts
+      : posts.filter(post => post.category === activeTab)
+  }, [activeTab])
 
   return (
     <div className="max-w-[800px] mx-auto border-x border-border min-h-screen bg-background">
-      {/* Banner */}
       <div className="p-4 pb-0">
         <img
           src="/images/banner.webp"
           alt="Celestinablue banner"
           className="w-full h-auto rounded-2xl shadow-xl"
+          loading="eager"
         />
       </div>
 
-      {/* Profile */}
       <ProfileHeader />
-
-      {/* Tabs */}
       <TabsNavigation activeTab={activeTab} onTabChange={handleTabChange} />
 
-      {/* Content */}
       <main>
         {activeTab === "contacts" ? (
           <ContactsPage />
         ) : (
           <div>
-            {filteredPosts.map(post => (
-              <PostCard
+            {filteredPosts.slice(0, visibleCount).map(post => (
+              <MemoizedPostCard
                 key={post.id}
                 post={post}
                 onMediaClick={handleMediaClick}
               />
             ))}
+            
+            {visibleCount < filteredPosts.length && (
+              <div className="p-6 text-center">
+                <button 
+                  onClick={() => setVisibleCount(prev => prev + 5)}
+                  className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
+                >
+                  Загрузить еще
+                </button>
+              </div>
+            )}
           </div>
         )}
       </main>
 
-      {/* Footer */}
       <Footer onNavigate={handleTabChange} />
 
-      {/* Lightbox */}
       <Lightbox
         media={lightboxMedia}
         currentIndex={lightboxIndex}
@@ -654,5 +565,3 @@ export default function CelestinabluePage() {
     </div>
   )
 }
-
-
