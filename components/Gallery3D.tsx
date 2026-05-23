@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, Suspense } from "react";
+import React, { useState, useRef, Suspense, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useTexture, Environment, Float } from "@react-three/drei";
 import * as THREE from "three";
@@ -9,36 +9,32 @@ const vec = new THREE.Vector3();
 const scaleVec = new THREE.Vector3();
 
 const PAINTINGS_DATA = [
-  { url: "/artgallery/1.webp", title: "Этюд в голубых тонах", desc: "Она появилась из попытки художника подобрать идеальные оттенки снега и льда..." },
-  { url: "/artgallery/2.webp", title: "Портрет сестры", desc: "Винтажный стиль, выразительный взгляд..." },
-  { url: "/artgallery/3.webp", title: "Молитва Танца Драконов", desc: "Фан-арт, показывающий двух ключевых героинь..." },
-  { url: "/artgallery/4.webp", title: "Шепот заросшего пути", desc: "Работа передает ощущение внезапного озарения..." },
-  { url: "/artgallery/6.webp", title: "Дом с историей", desc: "Этюд фасада старинного здания..." },
-  { url: "/artgallery/7.webp", title: "Свет, затаившийся в тени", desc: "Минималистичная композиция..." },
-  { url: "/artgallery/9.webp", title: "Амфора и спелость", desc: "Это работа о гармонии повседневных вещей..." },
-  { url: "/artgallery/11.webp", title: "Завтрак в цвете", desc: "Минималистичная композиция..." },
-  { url: "/artgallery/12.webp", title: "Разговор с отражением", desc: "Отражение в зеркале выглядит более реальным..." },
-  { url: "/artgallery/14.webp", title: "Серый силуэт", desc: "Цифровая иллюстрация..." },
-  { url: "/artgallery/15.webp", title: "Солнце на столе", desc: "Яркая, радостная композиция..." },
-  { url: "/artgallery/16.webp", title: "Белая сова", desc: "На картине изображена величественная полярная сова..." },
-  { url: "/artgallery/18.webp", title: "Небесный уголок Литы", desc: "Интерьер мансарды..." },
-  { url: "/artgallery/20.webp", title: "Фиолетовый день", desc: "Кот на кружке кажется покровителем..." },
-  { url: "/artgallery/22.webp", title: "Морс", desc: "Маленький белый ковшик на плите с ягодами." },
-  { url: "/artgallery/23.webp", title: "Внутри отражения", desc: "Фантазия без границ в одной чашке теплого чая." },
+  { url: "/artgallery/1.webp", title: "Этюд в голубых тонах", desc: "Она появилась из попытки художника подобрать идеальные оттенки снега и льда, и в итоге стала похожа на саму стихию: легкая, холодная и невероятно изящная" },
+  { url: "/artgallery/2.webp", title: "Портрет сестры", desc: "Винтажный стиль, выразительный взгляд и ключевая деталь - зеленая звезда  создают образ современной героини с особенным, глубоким внутренним миром" },
+  { url: "/artgallery/3.webp", title: "Молитва Танца Драконов", desc: "Фан-арт, показывающий двух ключевых героинь «Дома Дракона» — Рейниру Таргариен и Алисенту Хайтауэр" },
+  { url: "/artgallery/4.webp", title: "Шепот заросшего пути", desc: "Работа передает ощущение внезапного озарения, которое случается в самый мрачный момент" },
+  { url: "/artgallery/6.webp", title: "Дом с историей", desc: "Этюд фасада старинного здания в стиле готического возрождения." },
+  { url: "/artgallery/7.webp", title: "Свет, затаившийся в тени", desc: "Минималистичная композиция, построенная на взаимодействии формы и яркого акцентного освещения.Работа передает ощущение свежести и объема через упрощение деталей. Вся выразительность картины заключена в уверенной работе со светом и цветом, которые делают привычный сюжет выразительным и современным." },
+  { url: "/artgallery/9.webp", title: "Амфора и спелость", desc: "Это работа о гармонии повседневных вещей, где свет мягко обволакивает каждый предмет" },
+  { url: "/artgallery/11.webp", title: "Завтрак в цвете", desc: "Минималистичная композиция акцентирует внимание на текстурах и насыщенности оттенков. Работа выполнена с большой свободой и эмоциональностью, где каждый мазок кисти служит для передачи не только формы, но и самого «вкуса» и настроения этого утра." },
+  { url: "/artgallery/12.webp", title: "Разговор с отражением", desc: "Отражение в зеркале выглядит более «реальным» и живым, чем фигура на переднем плане, что создает интересный визуальный парадокс." },
+  { url: "/artgallery/14.webp", title: "Серый силуэт", desc: "Цифровая иллюстрация, воплощающая квинтэссенцию готической эстетики «Семейки Аддамс». В центре композиции — знаменитый мрачный особняк" },
+  { url: "/artgallery/15.webp", title: "Солнце на столе", desc: "Яркая, радостная композиция, пронизанная светом. Золотой чайник, отражающий окружающие предметы, играет роль «второго солнца» в картине. Контраст между теплым оранжевым цветом фруктов и холодным голубым оттенком ткани придает работе энергичность и гармонию. Это картина-настроение, передающая вкус и тепло неспешного полдня." },
+  { url: "/artgallery/16.webp", title: "Белая сова", desc: "На картине изображена величественная полярная сова, застывшая в моменте глубокого спокойствия посреди заснеженной чащи." },
+  { url: "/artgallery/18.webp", title: "Небесный уголок Литы", desc: "На картине изображен уютный и загадочный интерьер мансарды, принадлежащей девушке Лите. Сама она, с копной белых волос и в синем школьном костюме, стоит у большого книжного шкафа, завороженно глядя в сторону окна.Книжная иллюстрация" },
+  { url: "/artgallery/20.webp", title: "Фиолетовый день", desc: "Кот на кружке кажется покровителем этого спокойного завтрака." },
+  { url: "/artgallery/22.webp", title: "Морс", desc: "Маленький белый ковшик на плите с ягодами" },
+  { url: "/artgallery/23.webp", title: "Внутри отражения", desc: "Фантазия без границ в одной чашке теплого чая" },
 ];
+
+PAINTINGS_DATA.forEach((item) => useTexture.preload(item.url));
 
 const Painting = React.memo(({ url, index, activeIndex, zoom }: { url: string; index: number; activeIndex: number, zoom: number }) => {
   const texture = useTexture(url);
-
-  useEffect(() => {
-    // Настройка текстуры для экономии памяти
-    texture.generateMipmaps = false;
+  
+  useMemo(() => {
+    texture.generateMipmaps = false; 
     texture.minFilter = THREE.LinearFilter;
-    
-    // При размонтировании принудительно удаляем текстуру из VRAM
-    return () => {
-      texture.dispose();
-    };
   }, [texture]);
 
   const group = useRef<THREE.Group>(null!);
@@ -48,7 +44,6 @@ const Painting = React.memo(({ url, index, activeIndex, zoom }: { url: string; i
   const width = height * aspect;
 
   useFrame((state, delta) => {
-    if (!group.current) return;
     const targetX = (index - activeIndex) * (width + 1);
     const targetScale = (index === activeIndex ? 1.2 : 0.6) * zoom;
     const targetZ = index === activeIndex ? 0.5 : 0;
@@ -84,29 +79,19 @@ Painting.displayName = 'Painting';
 export default function ModernGallery() {
   const [index, setIndex] = useState(0);
   const [zoom, setZoom] = useState(1);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
-  }, []);
 
   return (
     <div style={{ width: "100vw", height: "100vh", background: "#f8fbff", position: "relative" }}>
       <Canvas 
         camera={{ position: [0, 0, 6], fov: 50 }}
-        dpr={isMobile ? [1, 1] : [1, 2]}
-        gl={{ 
-          antialias: false, 
-          powerPreference: "high-performance",
-          preserveDrawingBuffer: false 
-        }}
+        dpr={[1, 2]}
+        gl={{ antialias: false, powerPreference: "high-performance" }}
       >
         <ambientLight intensity={0.8} />
         <Environment preset="studio" />
         
         {PAINTINGS_DATA.map((item, i) => {
-          // Рендерим только текущую и соседние, чтобы не держать все в RAM
-          if (Math.abs(i - index) > 1) return null;
+          if (Math.abs(i - index) > 2) return null;
           return (
             <Suspense key={item.url} fallback={null}>
               <Painting url={item.url} index={i} activeIndex={index} zoom={zoom} />
