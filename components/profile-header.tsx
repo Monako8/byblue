@@ -26,8 +26,8 @@ export function ProfileHeader() {
         {/* Правая часть: Статистика и кнопки */}
         <div className="flex items-center gap-4">
           <div className="flex gap-4 text-sm text-muted-foreground">
-            <span><strong className="text-foreground">890</strong> подписок</span>
-            <span><strong className="text-foreground">12.5K</strong> подписчиков</span>
+            <span><strong className="text-foreground"></strong> </span>
+            <span><strong className="text-foreground"></strong> </span>
           </div>
           
           <div className="flex items-center gap-2">
