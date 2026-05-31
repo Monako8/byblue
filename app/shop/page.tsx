@@ -73,6 +73,15 @@ const shopItems: ShopItem[] = [
     category: "Узор",
     payUrl: "https://yoomoney.ru/quickpay/confirm.xml?receiver=4100116871003718&quickpay-form=shop&targets=%D0%9E%D0%BF%D0%BB%D0%B0%D1%82%D0%B0%3A%20%D0%9D%D0%B0%D0%B1%D0%BE%D1%80%20%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D1%8B%D1%85%20%D0%B8%D0%BA%D0%BE%D0%BD%D0%BE%D0%BA&sum=750&need-email=true"
   },
+          {
+    id: "7", // Changed to a unique ID
+    title: "Картина «Я никто»",
+    description: "Холст 40x50, акрил,бумага,картон,доставка",
+    price: "15000₽",
+    image: "/magazine/kartina.webp",
+    category: "Картина на холсте",
+    payUrl: "https://yoomoney.ru/quickpay/confirm.xml?receiver=4100116871003718&quickpay-form=shop&targets=%D0%9E%D0%BF%D0%BB%D0%B0%D1%82%D0%B0%3A%20%D0%9D%D0%B0%D0%B1%D0%BE%D1%80%20%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D1%8B%D1%85%20%D0%B8%D0%BA%D0%BE%D0%BD%D0%BE%D0%BA&sum=15000&need-email=true"
+  },
 ]
 
 export default function ShopPage() {
@@ -192,7 +201,7 @@ export default function ShopPage() {
         <main className="p-4">
           <div className="mb-6">
             <p className="text-muted-foreground">
-              Готовые цифровые продукты для ваших проектов
+              Готовые цифровые продукты и авторская живопись
             </p>
           </div>
 
