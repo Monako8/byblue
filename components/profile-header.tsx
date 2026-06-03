@@ -14,7 +14,7 @@ export function ProfileHeader() {
             <img
               src="/images/onecat.webp"
               alt="Celestinablue avatar"
-              className="w-23 h-auto object-contain drop-shadow-md rotate-[-3deg] transition-all duration-[2000ms] ease-in-out group-hover:rotate-[357deg]"
+              className="w-17 h-auto object-contain drop-shadow-md rotate-[-3deg] transition-all duration-[2000ms] ease-in-out group-hover:rotate-[357deg]"
             />
           </div>
           
@@ -38,7 +38,7 @@ export function ProfileHeader() {
             {/* Кнопка 3D Галереи */}
             <Link
               href="/museum"
-              className="w-23 h-23 flex items-center justify-center hover:scale-105 transition-transform"
+              className="w-17 h-17 flex items-center justify-center hover:scale-105 transition-transform"
               aria-label="3D Галерея"
             >
               <img 
@@ -51,7 +51,7 @@ export function ProfileHeader() {
             {/* Кнопка Магазин */}
             <Link
               href="/shop"
-              className="w-23 h-23 flex items-center justify-center hover:scale-105 transition-transform"
+              className="w-17 h-17 flex items-center justify-center hover:scale-105 transition-transform"
               aria-label="Магазин"
             >
               <img 

@@ -190,8 +190,20 @@ export default function ShopPage() {
             >
               <ArrowLeft className="w-5 h-5 text-foreground" />
             </Link>
+            
             <div className="flex items-center gap-2">
-              <ShoppingBag className="w-5 h-5 text-primary" />
+              {/* Ваша иконка магазина */}
+              <Link 
+                href="/shop"
+                className="w-9 h-9 flex items-center justify-center hover:scale-105 transition-transform"
+                aria-label="Магазин"
+              >
+                <img 
+                  src="/shops.webp" 
+                  alt="Магазин" 
+                  className="w-full h-full object-contain"
+                />
+              </Link>
               <h1 className="text-xl font-bold text-foreground">Магазин</h1>
             </div>
           </div>
@@ -204,6 +216,7 @@ export default function ShopPage() {
               Готовые цифровые продукты и авторская живопись
             </p>
           </div>
+          {/* Далее идет ваш код с товарами... */}
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {shopItems.map((item) => (
