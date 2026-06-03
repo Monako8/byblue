@@ -9,15 +9,12 @@ export function ProfileHeader() {
       <div className="flex items-center justify-between flex-wrap gap-4">
         {/* Левая часть: Аватар и имя */}
         <div className="flex items-center gap-4">
-          {/* Контейнер аватара с эффектом вращения */}
+          {/* Контейнер аватара с эффектом скрапбукинга и медленным поворотом */}
           <div className="group cursor-pointer"> 
             <img
               src="/images/onecat.webp"
               alt="Celestinablue avatar"
-              // rotate-[-3deg] — начальный наклон
-              // group-hover:animate-spin — запускает анимацию при наведении на родителя
-              // duration-1000 — время одного полного оборота
-              className="w-23 h-auto object-contain drop-shadow-md rotate-[-3deg] transition-all duration-300 group-hover:rotate-[360deg] group-hover:!rotate-[360deg]"
+              className="w-23 h-auto object-contain drop-shadow-md rotate-[-3deg] transition-all duration-[2000ms] ease-in-out group-hover:rotate-[357deg]"
             />
           </div>
           
@@ -38,23 +35,40 @@ export function ProfileHeader() {
           </div>
           
           <div className="flex items-center gap-2">
+            {/* Кнопка 3D Галереи */}
             <Link
               href="/museum"
               className="w-23 h-23 flex items-center justify-center hover:scale-105 transition-transform"
               aria-label="3D Галерея"
             >
-              <img src="/gallerys.webp" alt="Галерея" className="w-full h-full object-contain" />
+              <img 
+                src="/gallerys.webp" 
+                alt="Галерея" 
+                className="w-full h-full object-contain"
+              />
             </Link>
 
+            {/* Кнопка Магазин */}
             <Link
               href="/shop"
               className="w-23 h-23 flex items-center justify-center hover:scale-105 transition-transform"
               aria-label="Магазин"
             >
-              <img src="/shops.webp" alt="Магазин" className="w-full h-full object-contain" />
+              <img 
+                src="/shops.webp" 
+                alt="Магазин" 
+                className="w-full h-full object-contain"
+              />
             </Link>
           </div>
         </div>
+      </div>
+      
+      {/* Информация о графике */}
+      <div className="mt-4 text-[15px] text-muted-foreground leading-relaxed space-y-1">
+        <div>{"🕐 Пн-Сб: 09:00 - 20:00 (МСК)"}</div>
+        <div>{"💬 Отвечаю в течение 1 часа"}</div>
+        <div className="mt-1">{"⛏️ Работаю с 2019 года"}</div>
       </div>
     </div>
   )
