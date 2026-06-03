@@ -9,12 +9,15 @@ export function ProfileHeader() {
       <div className="flex items-center justify-between flex-wrap gap-4">
         {/* Левая часть: Аватар и имя */}
         <div className="flex items-center gap-4">
-          {/* Контейнер аватара со стилем скрапбукинга, но без выхода за край */}
-          <div className="rotate-[-3deg] hover:rotate-0 transition-transform duration-300"> 
+          {/* Контейнер аватара с эффектом вращения */}
+          <div className="group cursor-pointer"> 
             <img
-              src="/images/onecat.webp" // Замените на путь к вашему файлу
+              src="/images/onecat.webp"
               alt="Celestinablue avatar"
-              className="w-23 h-auto object-contain drop-shadow-md"
+              // rotate-[-3deg] — начальный наклон
+              // group-hover:animate-spin — запускает анимацию при наведении на родителя
+              // duration-1000 — время одного полного оборота
+              className="w-23 h-auto object-contain drop-shadow-md rotate-[-3deg] transition-all duration-300 group-hover:rotate-[360deg] group-hover:!rotate-[360deg]"
             />
           </div>
           
@@ -35,30 +38,20 @@ export function ProfileHeader() {
           </div>
           
           <div className="flex items-center gap-2">
-            {/* Кнопка 3D Галереи */}
             <Link
               href="/museum"
               className="w-23 h-23 flex items-center justify-center hover:scale-105 transition-transform"
               aria-label="3D Галерея"
             >
-              <img 
-                src="/gallerys.webp" 
-                alt="Галерея" 
-                className="w-full h-full object-contain"
-              />
+              <img src="/gallerys.webp" alt="Галерея" className="w-full h-full object-contain" />
             </Link>
 
-            {/* Кнопка Магазин */}
             <Link
               href="/shop"
               className="w-23 h-23 flex items-center justify-center hover:scale-105 transition-transform"
               aria-label="Магазин"
             >
-              <img 
-                src="/shops.webp" 
-                alt="Магазин" 
-                className="w-full h-full object-contain"
-              />
+              <img src="/shops.webp" alt="Магазин" className="w-full h-full object-contain" />
             </Link>
           </div>
         </div>
