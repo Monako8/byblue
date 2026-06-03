@@ -24,6 +24,9 @@ const posts: PostData[] = [
     { icon: "/smiles/3.webp", title: "Дизайн", description: "— логотипы, фирменный стиль, упаковка" },
     { icon: "/smiles/1.webp", title: "Web", description: "— лендинги, сайты-портфолио, UI/UX" },
     { icon: "/smiles/4.webp", title: "Концепт-арт", description: "— персонажи для игр, окружение" },
+
+    { icon: "/smiles/5.webp", title: "Время работы", description: "— Пн-Сб: 09:00 - 20:00 (МСК)" },
+    { icon: "/smiles/6.webp", title: "Скорость ответа", description: "— Отвечаю в течение 1 часа" },
   ],
   footerText: "Для заказа пишите в форму внизу страницы 💙",
   likes: 567,
