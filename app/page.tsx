@@ -25,8 +25,8 @@ const posts: PostData[] = [
     { icon: "/smiles/1.webp", title: "Web", description: "— лендинги, сайты-портфолио, UI/UX" },
     { icon: "/smiles/4.webp", title: "Концепт-арт", description: "— персонажи для игр, окружение" },
 
-    { icon: "/smiles/5.webp", title: "Время работы", description: "— Пн-Сб: 09:00 - 20:00 (МСК)" },
-    { icon: "/smiles/6.webp", title: "Скорость ответа", description: "— Отвечаю в течение 1 часа" },
+    { icon: "/smiles/5.webp", title: "Время работы", description: "— пн-сб: 09:00 - 20:00 (МСК)" },
+    { icon: "/smiles/6.webp", title: "Скорость ответа", description: "— в течение 1 часа" },
   ],
   footerText: "Для заказа пишите в форму внизу страницы 💙",
   likes: 567,
@@ -40,6 +40,7 @@ const posts: PostData[] = [
   time: "1 дн.",
   category: "art",
   headerImage: "/textglav/2.webp",
+
   // Добавляем массив tools, чтобы код увидел, что нужно нарисовать кнопки
   tools: ["Adobe Photoshop", "Adobe Illustrator", "Go Paint", "Adobe InDisign", "Pixso", "Blender", "Visual Studio Code", "Procreate", "FontLab 8", "Figma"],
   text: "",
