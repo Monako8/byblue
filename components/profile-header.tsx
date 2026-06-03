@@ -56,7 +56,7 @@ export function ProfileHeader() {
       <div className="mt-4 text-[15px] text-muted-foreground leading-relaxed space-y-1">
         <div>{"🕐 Пн-Сб: 09:00 - 20:00 (МСК)"}</div>
         <div>{"💬 Отвечаю в течение 1 часа"}</div>
-        <div className="mt-1">{"🌸 Работаю с 2019 года"}</div>
+        <div className="mt-1">{"⛏️ Работаю с 2019 года"}</div>
       </div>
     </div>
   )

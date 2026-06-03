@@ -1,48 +1,47 @@
-import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
-import Script from 'next/script'
-import './globals.css'
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
+import { Analytics } from '@vercel/analytics/next';
+import Script from 'next/script';
+import './globals.css';
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+// 1. Системные шрифты
+const _geist = Geist({ subsets: ["latin"], variable: '--font-geist' });
+const _geistMono = Geist_Mono({ subsets: ["latin"], variable: '--font-geist-mono' });
+
+// 2. Ваш кастомный шрифт (woff2 — идеальный выбор)
+const babyBlue = localFont({
+  src: '../public/fonts/Babyblue.woff2',
+  variable: '--font-babyblue',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Babyblue - Art Design Web Concept',
   description: 'Арт-дирекшн, графический дизайн, иллюстрация, web-дизайн',
-  generator: 'app',
-  icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-    ],
-    apple: '/apple-icon.png',
-  },
-}
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className="bg-background">
-      <body className={`${_geist.className} font-sans antialiased`}>
+    <html lang="ru" className={`bg-background ${babyBlue.variable} ${_geist.variable} ${_geistMono.variable}`}>
+      <body className="font-sans antialiased">
         
-        {/* Скрытый технический контейнер для Google */}
+        {/* Технический контейнер для Google Translate */}
         <div id="google_translate_element" style={{ display: 'none' }}></div>
 
         {children}
+        
         {process.env.NODE_ENV === 'production' && <Analytics />}
 
-        {/* Скрипт для отладки белого экрана (поможет увидеть ошибку прямо в браузере) */}
+        {/* Скрипты */}
         <Script id="debug-error" strategy="beforeInteractive">
           {`window.onerror = function(msg, url, line) { console.error('Error: ' + msg + ' at ' + line); };`}
         </Script>
 
-        {/* Настройка переводчика с защитой */}
         <Script id="google-translate-init" strategy="afterInteractive">
           {`
             function googleTranslateElementInit() {
@@ -52,15 +51,11 @@ export default function RootLayout({
                 autoDisplay: false
               }, 'google_translate_element');
             }
-
-            // Безопасная функция для переключения языка
             window.changeLanguage = function(langCode) {
               var select = document.querySelector('.goog-te-combo');
               if (select) {
                 select.value = langCode;
                 select.dispatchEvent(new Event('change'));
-              } else {
-                console.warn("Google Translate еще не загрузился или недоступен.");
               }
             }
           `}
@@ -72,5 +67,5 @@ export default function RootLayout({
         />
       </body>
     </html>
-  )
+  );
 }

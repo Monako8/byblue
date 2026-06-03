@@ -22,12 +22,10 @@ export function Footer({ onNavigate }: FooterProps) {
     e.preventDefault()
     setIsSubmitting(true)
     
-    // Данные вашего Telegram-бота
     const TOKEN = "8449729367:AAH-G2GCPJEVyzRQ5N0_d9sTlohOszD62Xg"
     const CHAT_ID = "759208789"
     const URI_API = `https://api.telegram.org/bot${TOKEN}/sendMessage`
 
-    // Формируем сообщение
     const fullMessage = `<b>🚀 НОВЫЙ ЗАКАЗ!</b>\n\n👤 <b>Имя:</b> ${formState.name}\n📱 <b>Контакт:</b> ${formState.contact}\n📝 <b>Проект:</b> ${formState.message}`
 
     try {
@@ -44,11 +42,9 @@ export function Footer({ onNavigate }: FooterProps) {
       if (response.ok) {
         setSubmitted(true)
         setFormState({ name: "", contact: "", message: "" })
-        
-        // Через 4 секунды возвращаем форму обратно, если клиент захочет написать ещё раз
         setTimeout(() => setSubmitted(false), 4000)
       } else {
-        alert("❌ Ошибка. Убедитесь, что ваш бот запущен (нажмите /start в диалоге с ним).")
+        alert("❌ Ошибка. Убедитесь, что ваш бот запущен.")
       }
     } catch (error) {
       alert("❌ Ошибка сети. Не удалось отправить сообщение.")
@@ -61,43 +57,16 @@ export function Footer({ onNavigate }: FooterProps) {
     <footer className="bg-gradient-to-br from-secondary to-secondary/50 border-t border-border">
       <div className="p-6 md:p-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Brand */}
+          
+          {/* Brand, Соцсети и Инструменты */}
           <div className="flex flex-col gap-3">
-            <img
-              src="/images/logobabyblue.webp"
-              alt="byblue"
-              className="h-12 w-auto object-contain object-left"
-            />
-            <img
-              src="/images/onecat.webp"
-              alt="Арт & Дизайн"
-              className="w-auto max-w-[280px] object-contain object-left"
-            />
+            <img src="/images/logobabyblue.webp" alt="byblue" className="h-12 w-auto object-contain object-left" />
+            <img src="/images/onecat.webp" alt="Арт & Дизайн" className="w-auto max-w-[280px] object-contain object-left" />
+            
             <div className="flex gap-3 mt-2">
-              <a
-                href="https://t.me/celestinabluee"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-11 h-11 bg-foreground text-background rounded-xl flex items-center justify-center text-sm font-semibold hover:opacity-80 hover:-translate-y-0.5 transition-all"
-              >
-                TG
-              </a>
-              <a
-                href="https://instagram.com/celestinabluee"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-11 h-11 bg-foreground text-background rounded-xl flex items-center justify-center text-sm font-semibold hover:opacity-80 hover:-translate-y-0.5 transition-all"
-              >
-                IG
-              </a>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-11 h-11 bg-foreground text-background rounded-xl flex items-center justify-center text-sm font-semibold hover:opacity-80 hover:-translate-y-0.5 transition-all"
-              >
-                YT
-              </a>
+              <a href="https://t.me/celestinabluee" target="_blank" rel="noopener noreferrer" className="w-11 h-11 bg-foreground text-background rounded-xl flex items-center justify-center text-sm font-semibold hover:opacity-80 transition-all">TG</a>
+              <a href="https://instagram.com/celestinabluee" target="_blank" rel="noopener noreferrer" className="w-11 h-11 bg-foreground text-background rounded-xl flex items-center justify-center text-sm font-semibold hover:opacity-80 transition-all">IG</a>
+              <a href="https://www.youtube.com/@babybluueee" target="_blank" rel="noopener noreferrer" className="w-11 h-11 bg-foreground text-background rounded-xl flex items-center justify-center text-sm font-semibold hover:opacity-80 transition-all">YT</a>
             </div>
           </div>
 
@@ -114,21 +83,13 @@ export function Footer({ onNavigate }: FooterProps) {
                 { id: "contacts" as const, label: "Контакты" },
               ].map((item) => (
                 <li key={item.id}>
-                  <button
-                    onClick={() => onNavigate(item.id)}
-                    className="text-[15px] text-muted-foreground hover:text-primary transition-colors"
-                  >
+                  <button onClick={() => onNavigate(item.id)} className="text-[15px] text-muted-foreground hover:text-primary transition-colors">
                     {item.label}
                   </button>
                 </li>
               ))}
               <li>
-                <Link
-                  href="/shop"
-                  className="text-[15px] text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Магазин
-                </Link>
+                <Link href="/shop" className="text-[15px] text-muted-foreground hover:text-primary transition-colors">Магазин</Link>
               </li>
             </ul>
           </div>
@@ -143,40 +104,13 @@ export function Footer({ onNavigate }: FooterProps) {
             </div>
 
             {submitted ? (
-              <div className="text-center text-emerald-600 py-5 font-medium">
-                {"✨ Магия сработала! Сообщение уже у меня."}
-              </div>
+              <div className="text-center text-emerald-600 py-5 font-medium">{"✨ Магия сработала! Сообщение уже у меня."}</div>
             ) : (
               <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  placeholder="Твоё имя"
-                  required
-                  value={formState.name}
-                  onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                  className="w-full px-4 py-3 bg-background border border-border/50 rounded-xl text-[15px] placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all"
-                />
-                <input
-                  type="text"
-                  placeholder="Email или ТГ"
-                  required
-                  value={formState.contact}
-                  onChange={(e) => setFormState({ ...formState, contact: e.target.value })}
-                  className="w-full px-4 py-3 bg-background border border-border/50 rounded-xl text-[15px] placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all"
-                />
-                <textarea
-                  placeholder="О чём проект?"
-                  rows={2}
-                  required
-                  value={formState.message}
-                  onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                  className="w-full px-4 py-3 bg-background border border-border/50 rounded-xl text-[15px] placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all resize-none md:col-span-2"
-                />
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="md:col-span-2 py-3 bg-foreground text-background rounded-xl text-base font-semibold hover:opacity-90 hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
-                >
+                <input type="text" placeholder="Твоё имя" required value={formState.name} onChange={(e) => setFormState({ ...formState, name: e.target.value })} className="w-full px-4 py-3 bg-background border border-border/50 rounded-xl text-[15px] focus:outline-none focus:border-primary transition-all" />
+                <input type="text" placeholder="Email или ТГ" required value={formState.contact} onChange={(e) => setFormState({ ...formState, contact: e.target.value })} className="w-full px-4 py-3 bg-background border border-border/50 rounded-xl text-[15px] focus:outline-none focus:border-primary transition-all" />
+                <textarea placeholder="О чём проект?" rows={2} required value={formState.message} onChange={(e) => setFormState({ ...formState, message: e.target.value })} className="w-full px-4 py-3 bg-background border border-border/50 rounded-xl text-[15px] resize-none md:col-span-2 focus:outline-none focus:border-primary transition-all" />
+                <button type="submit" disabled={isSubmitting} className="md:col-span-2 py-3 bg-foreground text-background rounded-xl text-base font-semibold hover:opacity-90 transition-all disabled:opacity-60">
                   {isSubmitting ? "Магия в пути..." : "Отправить магию"}
                 </button>
               </form>
@@ -184,7 +118,6 @@ export function Footer({ onNavigate }: FooterProps) {
           </div>
         </div>
 
-        {/* Copyright */}
         <div className="text-center text-sm text-muted-foreground mt-12 pt-6 border-t border-foreground/10">
           {"© 2026 Все права защищены. Сделано с 💗 и вдохновением."}
         </div>

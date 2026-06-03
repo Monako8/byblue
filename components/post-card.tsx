@@ -1,7 +1,6 @@
 "use client"
 
 import { useRef, useState, useCallback } from "react"
-import { Heart, MessageCircle, Repeat2, Share, Pin } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 
@@ -18,6 +17,8 @@ export interface PostData {
   avatar: string
   time: string
   text: string
+  headerImage?: string // Добавлено поле для изображения заголовка
+  tools?: string[]
   media?: MediaItem[]
   likes: number
   comments: number
@@ -45,10 +46,10 @@ export function PostCard({ post, onMediaClick }: PostCardProps) {
     setStartX(e.pageX - scrollRef.current.offsetLeft)
     setScrollLeft(scrollRef.current.scrollLeft)
   }, [])
-
+  
   const handleMouseLeave = useCallback(() => setIsDragging(false), [])
   const handleMouseUp = useCallback(() => setIsDragging(false), [])
-
+  
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!isDragging || !scrollRef.current) return
     const x = e.pageX - scrollRef.current.offsetLeft
@@ -64,83 +65,68 @@ export function PostCard({ post, onMediaClick }: PostCardProps) {
   }
 
   const renderMediaItem = (item: MediaItem, index: number) => {
-    const baseClasses = "relative flex-shrink-0 w-[180px] h-[240px] rounded-xl overflow-hidden cursor-pointer hover:brightness-95 transition-all bg-muted"
-
+    const baseClasses = "relative flex-shrink-0 w-[180px] h-[240px] rounded-xl overflow-hidden cursor-pointer hover:scale-[1.02] transition-transform bg-muted border-4 border-white shadow-[0_0_0_1px_#b5b5b5]"
+    
     if (item.type === "video") {
       return (
-        <video
-          key={index}
-          src={item.src}
-          poster={item.poster}
-          className="w-[180px] h-[240px] object-cover rounded-xl"
-          muted
-          playsInline
-          preload="metadata"
-          onClick={(e) => {
-            e.currentTarget.play()
-            handleMediaItemClick(item)
-          }}
-        />
+        <video key={index} src={item.src} poster={item.poster} className="w-[180px] h-[240px] object-cover rounded-xl border-4 border-white shadow-[0_0_0_1px_#b5b5b5]" muted playsInline onClick={() => handleMediaItemClick(item)} />
       )
     }
 
     return (
       <div key={index} className={baseClasses} onClick={() => handleMediaItemClick(item)}>
-        <Image
-          src={item.type === "gif" ? (item.preview || item.src) : item.src}
-          alt="media"
-          fill
-          sizes="180px"
-          className="object-cover"
-          draggable={false}
-          unoptimized={item.type === "gif"}
-          priority={index === 0}
-          loading={index === 0 ? undefined : "lazy"}
-          placeholder="blur"
-          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII="
-        />
-        {item.type === "gif" && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/10 transition-opacity">
-            <span className="bg-black/50 text-white text-[10px] px-2 py-1 rounded-full uppercase">GIF</span>
-          </div>
-        )}
+        <Image src={item.preview || item.src} alt="media" fill sizes="180px" className="object-cover" draggable={false} unoptimized={item.type === "gif"} priority={index === 0} />
       </div>
     )
   }
 
   return (
-    <article 
-      className="p-4 border-b border-border bg-background will-change-transform"
-      style={{ contentVisibility: 'auto', containIntrinsicSize: '0 500px' }}
-    >
-      {post.pinned && (
-        <div className="flex items-center gap-1.5 ml-12 mb-2 text-sm text-muted-foreground">
-          <Pin className="w-3.5 h-3.5" fill="currentColor" />
-          <span>Закреплено</span>
-        </div>
-      )}
-
-      <div className="flex gap-3">
-        <div className="relative w-9 h-9 flex-shrink-0">
-          <Image
-            src={post.avatar}
-            alt="avatar"
-            fill
-            sizes="36px"
-            className="rounded-full object-cover border border-border"
-          />
-        </div>
-
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1.5 flex-wrap text-[15px]">
-            <span className="font-semibold text-foreground">{post.author}</span>
-            <span className="text-muted-foreground">· {post.time}</span>
-          </div>
-
+    <>
+      <article 
+        className="relative z-20 p-8 rounded-3xl bg-card shadow-sm border border-foreground/20 overflow-hidden"
+        style={{ 
+          contentVisibility: 'auto',
+          backgroundImage: "linear-gradient(45deg, hsl(var(--foreground)/0.03) 25%, transparent 25%, transparent 75%, hsl(var(--foreground)/0.03) 75%, hsl(var(--foreground)/0.03)), linear-gradient(45deg, hsl(var(--foreground)/0.03) 25%, transparent 25%, transparent 75%, hsl(var(--foreground)/0.03) 75%, hsl(var(--foreground)/0.03))",
+          backgroundSize: "20px 20px",
+          backgroundPosition: "0 0, 10px 10px"
+        }}
+      >
+{/* Миниатюрный заголовок, выровненный по левому краю */}
+{post.headerImage && (
+  <div className="flex justify-start mb-6 pl-4">
+    <div className="relative w-full max-w-[180px] aspect-[4/1] overflow-hidden">
+      <Image 
+        src={post.headerImage} 
+        alt="header" 
+        fill 
+        className="object-contain" 
+        priority 
+      />
+    </div>
+  </div>
+)}
+        <div className="flex-1 min-w-0 relative z-10">
           <div 
-            className="mt-1 text-[15px] leading-relaxed whitespace-pre-line"
+            className="text-[16px] leading-relaxed whitespace-pre-line text-foreground mb-6 font-sans"
             dangerouslySetInnerHTML={{ __html: post.text }}
           />
+
+          {post.tools && (
+            <div className="flex flex-wrap gap-2 mb-8">
+              {post.tools.map((tool, i) => {
+                const colors = ["#93B8E6", "#8A97AC", "#A8A8C0", "#BCCBE0", "#99AACC"];
+                return (
+                  <div 
+                    key={i} 
+                    className="px-4 py-1.5 rounded-lg text-[11px] font-bold uppercase tracking-wider text-white shadow-sm hover:scale-[1.02] transition-transform select-none"
+                    style={{ backgroundColor: colors[i % colors.length] }}
+                  >
+                    {tool}
+                  </div>
+                )
+              })}
+            </div>
+          )}
           
           {post.media && post.media.length > 0 && (
             <div 
@@ -149,40 +135,18 @@ export function PostCard({ post, onMediaClick }: PostCardProps) {
               onMouseLeave={handleMouseLeave}
               onMouseUp={handleMouseUp}
               onMouseMove={handleMouseMove}
-              className={cn(
-                "mt-3 flex gap-2 overflow-x-auto overflow-y-hidden select-none -mr-4 pr-4",
-                isDragging ? "cursor-grabbing" : "cursor-grab"
-              )}
-              style={{ 
-                scrollbarWidth: 'none', 
-                msOverflowStyle: 'none', 
-                WebkitOverflowScrolling: 'touch',
-                contain: 'content' 
-              }}
+              className={cn("flex gap-4 overflow-x-auto overflow-y-hidden select-none", isDragging ? "cursor-grabbing" : "cursor-grab")}
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
             >
               {post.media.map((item, i) => renderMediaItem(item, i))}
             </div>
           )}
-          
-          <div className="flex items-center gap-1 mt-3 -ml-2">
-            <ActionButton icon={Heart} count={post.likes} />
-            <ActionButton icon={MessageCircle} count={post.comments} />
-            <ActionButton icon={Repeat2} count={post.reposts} />
-            <button className="ml-auto p-1.5 rounded-full text-primary hover:bg-primary/10 transition-colors">
-              <Share className="w-4.5 h-4.5" />
-            </button>
-          </div>
         </div>
-      </div>
-    </article>
-  )
-}
+      </article>
 
-function ActionButton({ icon: Icon, count }: { icon: React.ComponentType<{ className?: string }>; count: number }) {
-  return (
-    <button className="flex items-center gap-1 px-2 py-1.5 rounded-full text-sm text-primary hover:bg-primary/10 transition-colors">
-      <Icon className="w-4.5 h-4.5" />
-      <span>{count}</span>
-    </button>
+      <div className="relative z-10 w-[calc(100%+4rem)] -mx-8 h-[60px] -my-[30px] flex justify-center opacity-40 pointer-events-none">
+        <div className="w-full h-full" style={{ backgroundImage: "repeating-linear-gradient(90deg, transparent, transparent 15px, hsl(var(--foreground)) 15px, hsl(var(--foreground)) 17px)", maskImage: "linear-gradient(to right, transparent, black 20%, black 80%, transparent)" }} />
+      </div>
+    </>
   )
 }
