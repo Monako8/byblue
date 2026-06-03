@@ -60,7 +60,6 @@ export function Footer({ onNavigate }: FooterProps) {
           
           {/* Brand, Соцсети и Инструменты */}
           <div className="flex flex-col gap-3">
-            <img src="/images/logobabyblue.webp" alt="byblue" className="h-12 w-auto object-contain object-left" />
             <img src="/images/onecat.webp" alt="Арт & Дизайн" className="w-auto max-w-[280px] object-contain object-left" />
             
             <div className="flex gap-3 mt-2">
