@@ -11,6 +11,10 @@ const _geistMono = Geist_Mono({ subsets: ["latin"], variable: '--font-geist-mono
 export const metadata: Metadata = {
   title: 'Babyblue - Art Design Web Concept',
   description: 'Арт-дирекшн, графический дизайн, иллюстрация, web-дизайн',
+  // Добавили фавикон
+  icons: {
+    icon: '/icon-dark-32x32.png',
+  },
 };
 
 export default function RootLayout({
@@ -19,7 +23,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // Убрали ${babyBlue.variable} из className
     <html lang="ru" className={`bg-background ${_geist.variable} ${_geistMono.variable}`}>
       <body className="font-sans antialiased">
         
