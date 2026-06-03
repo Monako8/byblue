@@ -1,6 +1,7 @@
-'use client'
+"use client"
 
 import { useState, useCallback, useMemo, memo } from "react"
+import { Preloader } from "@/components/Preloader"
 import { ProfileHeader } from "@/components/profile-header"
 import { TabsNavigation, type TabType } from "@/components/tabs-navigation"
 import { PostCard, type PostData, type MediaItem } from "@/components/post-card"
@@ -560,6 +561,8 @@ export default function CelestinabluePage() {
 
   return (
     <div className="max-w-[800px] mx-auto border-x border-border min-h-screen bg-background">
+      <Preloader />
+      
       <div className="p-4 pb-0">
         <img
           src="/images/banner.webp"
