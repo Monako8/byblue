@@ -17,7 +17,14 @@ const posts: PostData[] = [
   time: "закреплено",
   pinned: true,
   headerImage: "/textglav/1.webp",
-  text: `ЧТО Я ДЕЛАЮ:\n\n🔵 Иллюстрация — персонажи, обложки, арты для соцсетей\n🌸 Дизайн — логотипы, фирменный стиль, упаковка\n💠 Web — лендинги, сайты-портфолио, UI/UX\n💙 Концепт-арт — персонажи для игр, окружение\n\n📧 Открыта к комиссиям и сотрудничеству\n\nДля заказа пишите в форму внизу страницы 💙`,
+  text: "ЧТО Я ДЕЛАЮ:",
+  services: [
+    { icon: "/smiles/2.webp", title: "Иллюстрация", description: "— персонажи, обложки, арты для соцсетей" },
+    { icon: "/smiles/3.webp", title: "Дизайн", description: "— логотипы, фирменный стиль, упаковка" },
+    { icon: "/smiles/1.webp", title: "Web", description: "— лендинги, сайты-портфолио, UI/UX" },
+    { icon: "/smiles/4.webp", title: "Концепт-арт", description: "— персонажи для игр, окружение" },
+  ],
+  footerText: "Для заказа пишите в форму внизу страницы 💙",
   likes: 567,
   comments: 89,
   reposts: 45,
@@ -31,7 +38,7 @@ const posts: PostData[] = [
   headerImage: "/textglav/2.webp",
   // Добавляем массив tools, чтобы код увидел, что нужно нарисовать кнопки
   tools: ["Adobe Photoshop", "Adobe Illustrator", "Go Paint", "Adobe InDisign", "Pixso", "Blender", "Visual Studio Code", "Procreate", "FontLab 8", "Figma"],
-  text:"",
+  text: "",
   likes: 342,
   comments: 67,
   reposts: 25,
@@ -62,7 +69,7 @@ const posts: PostData[] = [
     category: "design",
     text: "",
     media: [
-      { src: "/images/onecat.webp", type: "image" },
+      { src: "/images/3sF3LOPC.webp", type: "image" },
       { src: "/images/twocat.webp", type: "image" },
       { src: "/images/threecat.webp", type: "image" },
       { src: "/images/focat.webp", type: "image" },
@@ -506,7 +513,7 @@ const posts: PostData[] = [
     avatar: "/images/avatars.webp",
     time: "08.05.2026",
     category: "design",
-        headerImage: "/textglav/21.webp",
+        headerImage: "/textglav/18.webp",
     text: "Услуга: Дизайн метафорических карт (МАК)",
     media: [
       { src: "/card/1.webp", type: "image" },
