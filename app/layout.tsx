@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import localFont from 'next/font/local';
 import { Analytics } from '@vercel/analytics/next';
 import Script from 'next/script';
 import './globals.css';
@@ -8,13 +7,6 @@ import './globals.css';
 // 1. Системные шрифты
 const _geist = Geist({ subsets: ["latin"], variable: '--font-geist' });
 const _geistMono = Geist_Mono({ subsets: ["latin"], variable: '--font-geist-mono' });
-
-// 2. Ваш кастомный шрифт (woff2 — идеальный выбор)
-const babyBlue = localFont({
-  src: '../public/fonts/Babyblue.woff2',
-  variable: '--font-babyblue',
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: 'Babyblue - Art Design Web Concept',
@@ -27,7 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={`bg-background ${babyBlue.variable} ${_geist.variable} ${_geistMono.variable}`}>
+    // Убрали ${babyBlue.variable} из className
+    <html lang="ru" className={`bg-background ${_geist.variable} ${_geistMono.variable}`}>
       <body className="font-sans antialiased">
         
         {/* Технический контейнер для Google Translate */}
