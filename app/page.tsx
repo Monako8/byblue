@@ -562,59 +562,59 @@ export default function CelestinabluePage() {
       : posts.filter(post => post.category === activeTab)
   }, [activeTab])
 
-  return (
-    <div className="max-w-[800px] mx-auto border-x border-border min-h-screen bg-background">
-      <Preloader />
+return ( 
+    <div className="max-w-[800px] mx-auto border-x border-border min-h-screen bg-background"> 
+      <Preloader /> 
       
-      <div className="p-4 pb-0">
-        <img
-          src="/images/banner.webp"
-          alt="Celestinablue banner"
-          className="w-full h-auto rounded-2xl shadow-xl"
-          loading="eager"
-        />
-      </div>
+      <div className="p-4 pb-0"> 
+        <img 
+          src="/images/banner.webp" 
+          alt="Celestinablue banner" 
+          className="w-full h-auto rounded-2xl shadow-xl border border-black" 
+          loading="eager" 
+        /> 
+      </div> 
 
-      <ProfileHeader />
-      <TabsNavigation activeTab={activeTab} onTabChange={handleTabChange} />
+      <ProfileHeader /> 
+      <TabsNavigation activeTab={activeTab} onTabChange={handleTabChange} /> 
 
-      <main>
-        {activeTab === "contacts" ? (
-          <ContactsPage />
-        ) : (
-          <div>
-            {filteredPosts.slice(0, visibleCount).map(post => (
-              <MemoizedPostCard
-                key={post.id}
-                post={post}
-                onMediaClick={handleMediaClick}
-              />
-            ))}
+      <main> 
+        {activeTab === "contacts" ? ( 
+          <ContactsPage /> 
+        ) : ( 
+          <div> 
+            {filteredPosts.slice(0, visibleCount).map(post => ( 
+              <MemoizedPostCard 
+                key={post.id} 
+                post={post} 
+                onMediaClick={handleMediaClick} 
+              /> 
+            ))} 
             
-            {visibleCount < filteredPosts.length && (
-              <div className="p-6 text-center">
-                <button 
-                  onClick={() => setVisibleCount(prev => prev + 5)}
-                  className="px-4 py-2 bg-[#93C3EF] text-white rounded-full hover:bg-[#7db1e8] transition"
-                >
-                  Загрузить еще
-                </button>
-              </div>
-            )}
-          </div>
-        )}
-      </main>
+            {visibleCount < filteredPosts.length && ( 
+              <div className="p-6 text-center"> 
+                <button  
+                  onClick={() => setVisibleCount(prev => prev + 5)} 
+                  className="px-4 py-2 bg-[#93C3EF] text-white rounded-full hover:bg-[#7db1e8] transition" 
+                > 
+                  Загрузить еще 
+                </button> 
+              </div> 
+            )} 
+          </div> 
+        )} 
+      </main> 
 
-      <Footer onNavigate={handleTabChange} />
+      <Footer onNavigate={handleTabChange} /> 
 
-      <Lightbox
-        media={lightboxMedia}
-        currentIndex={lightboxIndex}
-        isOpen={lightboxOpen}
-        onClose={() => setLightboxOpen(false)}
-        onNext={() => setLightboxIndex((lightboxIndex + 1) % lightboxMedia.length)}
-        onPrev={() => setLightboxIndex((lightboxIndex - 1 + lightboxMedia.length) % lightboxMedia.length)}
-      />
-    </div>
-  )
+      <Lightbox 
+        media={lightboxMedia} 
+        currentIndex={lightboxIndex} 
+        isOpen={lightboxOpen} 
+        onClose={() => setLightboxOpen(false)} 
+        onNext={() => setLightboxIndex((lightboxIndex + 1) % lightboxMedia.length)} 
+        onPrev={() => setLightboxIndex((lightboxIndex - 1 + lightboxMedia.length) % lightboxMedia.length)} 
+      /> 
+    </div> 
+  ) 
 }
