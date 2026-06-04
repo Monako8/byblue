@@ -228,7 +228,7 @@ return (
             <ul className="text-sm text-muted-foreground space-y-1.5">
               <li>1. Выберите товар и нажмите «Купить»</li>
               <li>2. Введите вашу почту и аккаунт Telegram</li>
-              <li>3. Получите доступ к файлам сразу после оплаты</li>
+              <li>3. Получите доступ к файлам </li>
             </ul>
           </div>
 
