@@ -1,43 +1,13 @@
 "use client"
 
-import { ArrowUpRight } from "lucide-react"
+import Image from "next/image"
 
 const contactLinks = [
-  {
-    id: "telegram",
-    name: "Telegram",
-    handle: "@celestinabluee",
-    href: "https://t.me/Monakoo8",
-    icon: "TG",
-  },
-  {
-    id: "email",
-    name: "Email",
-    handle: "thekristen3443@gmail.com",
-    href: "mailto:thekristen3443@gmail.com",
-    icon: "EM",
-  },
-  {
-    id: "website",
-    name: "tiktok",
-    handle: "babyblue",
-    href: "https://www.tiktok.com/@celestinabluue",
-    icon: "TT",
-  },
-  {
-    id: "instagram",
-    name: "Instagram",
-    handle: "@celestinabluee",
-    href: "https://instagram.com/celestinabluee",
-    icon: "IG",
-  },
-    {
-    id: "thr",
-    name: "threads",
-    handle: "@celestinabluee",
-    href: "https://www.threads.com/@celestinabluee",
-    icon: "TH",
-  },
+  { id: "telegram", name: "Telegram", handle: "@celestinabluee", href: "https://t.me/Monakoo8", icon: "TG" },
+  { id: "email", name: "Email", handle: "thekristen3443@gmail.com", href: "mailto:thekristen3443@gmail.com", icon: "EM" },
+  { id: "website", name: "tiktok", handle: "babyblue", href: "https://www.tiktok.com/@celestinabluue", icon: "TT" },
+  { id: "instagram", name: "Instagram", handle: "@celestinabluee", href: "https://instagram.com/celestinabluee", icon: "IG" },
+  { id: "thr", name: "threads", handle: "@celestinabluee", href: "https://www.threads.com/@celestinabluee", icon: "TH" },
 ]
 
 const pricing = [
@@ -63,7 +33,6 @@ const pricing = [
   { service: "Анимированный стикер (Telegram / GIF)", price: "от 1 500 ₽", time: "2-4 дня" },
   { service: "Покадровая анимация персонажа (цикл)", price: "от 5 000 ₽", time: "4-7 дней" },
   { service: "Анимированная иллюстрация (заставка)", price: "от 8 000 ₽", time: "5-10 дней" },
-  
 ]
 
 const processSteps = [
@@ -76,36 +45,50 @@ const processSteps = [
 export function ContactsPage() {
   return (
     <div className="p-4">
-      {/* Status Badge */}
       <div className="flex items-center gap-2 p-3 px-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-600 text-sm mb-6">
         <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse-slow" />
         <span>{" Комиссии открыты · Свободна для проектов"}</span>
       </div>
       
-      {/* Contact Links */}
       <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">Связаться</h3>
       <div className="flex flex-col gap-2.5 mb-6">
-        {contactLinks.map((link) => (
-          <a
-            key={link.id}
-            href={link.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 p-3.5 px-4 bg-gradient-to-r from-secondary to-secondary/50 border border-border rounded-xl hover:scale-[1.02] transition-transform"
-          >
-            <div className="w-10 h-10 bg-foreground rounded-lg flex items-center justify-center text-background text-sm font-semibold">
-              {link.icon}
-            </div>
-            <div className="flex-1">
-              <div className="font-semibold text-foreground text-[15px]">{link.name}</div>
-              <div className="text-sm text-muted-foreground">{link.handle}</div>
-            </div>
-            <ArrowUpRight className="w-4 h-4 text-primary" />
-          </a>
-        ))}
+        {contactLinks.map((link) => {
+          // Генерируем случайное расстояние выезда от -20px до -60px
+          const randomRight = Math.floor(Math.random() * 40) + 20;
+
+          return (
+            <a
+              key={link.id}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative flex items-center gap-3 p-3.5 px-4 bg-gradient-to-r from-secondary to-secondary/50 border border-border rounded-xl hover:scale-[1.02] transition-all overflow-hidden"
+            >
+              <div className="w-10 h-10 bg-foreground rounded-lg flex items-center justify-center text-background text-sm font-semibold z-10">
+                {link.icon}
+              </div>
+              <div className="flex-1 z-10">
+                <div className="font-semibold text-foreground text-[15px]">{link.name}</div>
+                <div className="text-sm text-muted-foreground">{link.handle}</div>
+              </div>
+              
+              {/* Билетик со случайным вылетом через CSS-переменную */}
+              <div 
+                className="absolute -right-[150px] top-1/2 h-[60px] w-[150px] -translate-y-1/2 transition-all duration-500 ease-out group-hover:right-[var(--ticket-offset)] z-0"
+                style={{ '--ticket-offset': `-${randomRight}px` } as React.CSSProperties}
+              >
+                <Image 
+                  src="/bilets.webp" 
+                  alt="ticket" 
+                  fill 
+                  className="object-contain scale-[1.8] translate-x-4" 
+                />
+              </div>
+            </a>
+          )
+        })}
       </div>
       
-      {/* Pricing */}
       <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">Услуги и цены</h3>
       <div className="border border-border rounded-xl overflow-hidden mb-6">
         {pricing.map((item, i) => (
@@ -122,7 +105,6 @@ export function ContactsPage() {
         ))}
       </div>
       
-      {/* Process */}
       <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">Как это работает</h3>
       <div className="flex flex-col gap-4">
         {processSteps.map((step) => (
