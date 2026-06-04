@@ -53,7 +53,6 @@ export function ContactsPage() {
       <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">Связаться</h3>
       <div className="flex flex-col gap-2.5 mb-6">
         {contactLinks.map((link) => {
-          // Генерируем случайное расстояние выезда от -20px до -60px
           const randomRight = Math.floor(Math.random() * 40) + 20;
 
           return (
@@ -72,7 +71,6 @@ export function ContactsPage() {
                 <div className="text-sm text-muted-foreground">{link.handle}</div>
               </div>
               
-              {/* Билетик со случайным вылетом через CSS-переменную */}
               <div 
                 className="absolute -right-[150px] top-1/2 h-[60px] w-[150px] -translate-y-1/2 transition-all duration-500 ease-out group-hover:right-[var(--ticket-offset)] z-0"
                 style={{ '--ticket-offset': `-${randomRight}px` } as React.CSSProperties}
@@ -81,7 +79,7 @@ export function ContactsPage() {
                   src="/bilets.webp" 
                   alt="ticket" 
                   fill 
-                  className="object-contain scale-[1.8] translate-x-4" 
+                  className="object-contain scale-[1.8] translate-x-4 grayscale transition-all duration-500 group-hover:grayscale-0" 
                 />
               </div>
             </a>
