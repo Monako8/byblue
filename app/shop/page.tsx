@@ -178,75 +178,42 @@ export default function ShopPage() {
     window.open(finalUrl, "_blank", "noopener,noreferrer")
   }
 
-  return (
+return (
     <div className="max-w-[800px] mx-auto border-x border-border min-h-screen bg-background flex flex-col justify-between relative">
       <div>
-        {/* Header */}
         <header className="sticky top-0 z-20 bg-background/95 backdrop-blur-md border-b border-border">
           <div className="flex items-center gap-4 p-4">
-            <Link 
-              href="/"
-              className="p-2 -ml-2 rounded-full hover:bg-secondary transition-colors"
-            >
+            <Link href="/" className="p-2 -ml-2 rounded-full hover:bg-secondary transition-colors">
               <ArrowLeft className="w-5 h-5 text-foreground" />
             </Link>
-            
             <div className="flex items-center gap-2">
-              {/* Ваша иконка магазина */}
-              <Link 
-                href="/shop"
-                className="w-9 h-9 flex items-center justify-center hover:scale-105 transition-transform"
-                aria-label="Магазин"
-              >
-                <img 
-                  src="/shops.webp" 
-                  alt="Магазин" 
-                  className="w-full h-full object-contain"
-                />
+              <Link href="/shop" className="w-9 h-9 flex items-center justify-center hover:scale-105 transition-transform" aria-label="Магазин">
+                <img src="/shops.webp" alt="Магазин" className="w-full h-full object-contain" />
               </Link>
               <h1 className="text-xl font-bold text-foreground">Магазин</h1>
             </div>
           </div>
         </header>
 
-        {/* Shop Content */}
         <main className="p-4">
-          <div className="mb-6">
-            <p className="text-muted-foreground">
-              Готовые цифровые продукты и авторская живопись
-            </p>
-          </div>
-          {/* Далее идет ваш код с товарами... */}
+          <div className="mb-6"><p className="text-muted-foreground">Готовые цифровые продукты и авторская живопись</p></div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {shopItems.map((item) => (
-              <div
-                key={item.id}
-                className="group bg-secondary/30 rounded-2xl overflow-hidden border border-border hover:border-primary/50 transition-all"
-              >
+              <div key={item.id} className="group bg-secondary/30 rounded-2xl overflow-hidden border border-border hover:border-primary/50 transition-all">
                 <div className="aspect-square relative overflow-hidden">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 cursor-pointer"
-                    onClick={() => handleImageClick(item.image)}
-                  />
-                  <span className="absolute top-2 left-2 px-2 py-1 bg-background/90 backdrop-blur-sm rounded-lg text-xs text-muted-foreground">
-                    {item.category}
-                  </span>
+                  <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 cursor-pointer" onClick={() => handleImageClick(item.image)} />
+                  <span className="absolute top-2 left-2 px-2 py-1 bg-background/90 backdrop-blur-sm rounded-lg text-xs text-muted-foreground">{item.category}</span>
                 </div>
                 <div className="p-3">
-                  <h3 className="font-semibold text-sm text-foreground line-clamp-1">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
-                    {item.description}
-                  </p>
+                  <h3 className="font-semibold text-sm text-foreground line-clamp-1">{item.title}</h3>
+                  <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{item.description}</p>
                   <div className="flex items-center justify-between mt-3">
                     <span className="text-primary font-bold">{item.price}</span>
                     <button 
                       onClick={() => handlePurchaseClick(item)}
-                      className="px-3 py-1.5 bg-primary text-primary-foreground text-xs font-medium rounded-lg hover:opacity-90 transition-opacity"
+                      style={{ backgroundColor: '#ECECEC' }}
+                      className="px-3 py-1.5 text-black text-xs font-medium rounded-lg hover:opacity-80 transition-opacity"
                     >
                       Купить
                     </button>
@@ -256,7 +223,6 @@ export default function ShopPage() {
             ))}
           </div>
 
-          {/* Info Section */}
           <div className="mt-8 p-4 bg-secondary/30 rounded-2xl border border-border">
             <h3 className="font-semibold text-foreground mb-2">Как это работает?</h3>
             <ul className="text-sm text-muted-foreground space-y-1.5">
@@ -266,98 +232,50 @@ export default function ShopPage() {
             </ul>
           </div>
 
-          {/* Back Link */}
           <div className="mt-6 mb-8 text-center">
-            <Link 
-              href="/"
-              className="text-primary hover:underline text-sm"
-            >
-              ← Вернуться на главную
-            </Link>
+            <Link href="/" className="text-primary hover:underline text-sm">← Вернуться на главную</Link>
           </div>
         </main>
       </div>
 
-      {/* МОДАЛЬНОЕ ОКНО С ПОЛЯМИ EMAIL И TELEGRAM */}
       {isModalOpen && selectedItem && (
         <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div 
-            style={{ maxWidth: '380px', width: '100%' }} 
-            className="bg-background border border-border rounded-2xl p-6 shadow-2xl relative flex flex-col gap-5 animate-in fade-in zoom-in-95 duration-200"
-          >
-            {/* Кнопка закрытия */}
-            <button
-              onClick={() => { setIsModalOpen(false); setFormError(""); }}
-              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors p-1.5 rounded-xl hover:bg-secondary"
-            >
+          <div style={{ maxWidth: '380px', width: '100%' }} className="bg-background border border-border rounded-2xl p-6 shadow-2xl relative flex flex-col gap-5 animate-in fade-in zoom-in-95 duration-200">
+            <button onClick={() => { setIsModalOpen(false); setFormError(""); }} className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors p-1.5 rounded-xl hover:bg-secondary">
               <X className="w-4 h-4" />
             </button>
-
-            {/* Заголовок */}
             <div className="text-left">
               <h3 className="text-lg font-bold text-foreground tracking-tight">Оформление заказа</h3>
-              <p className="text-xs text-muted-foreground mt-1 leading-normal">
-                Контакты необходимы для отправки и открытия защищенного доступа к архиву после платежа.
-              </p>
+              <p className="text-xs text-muted-foreground mt-1 leading-normal">Контакты необходимы для отправки и открытия защищенного доступа к архиву после платежа.</p>
             </div>
-            
-            {/* Карточка предпросмотра товара */}
             <div className="bg-secondary/40 p-4 rounded-xl border border-border/60 flex flex-col gap-1 text-left">
               <span className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground">Вы заказываете:</span>
               <p className="font-semibold text-sm text-foreground leading-tight line-clamp-2">{selectedItem.title}</p>
               <p className="text-primary font-bold text-base mt-1">{selectedItem.price}</p>
             </div>
-
-            {/* Форма ввода */}
             <form onSubmit={handlePaymentSubmit} className="flex flex-col gap-4 text-left">
-              {/* Поле Email */}
               <div className="flex flex-col gap-1">
-                <label className="text-xs font-semibold text-foreground/80 pl-1">
-                  Электронная почта
-                </label>
-                <input
-                  type="email"
-                  placeholder="name@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-2.5 border border-input rounded-xl text-sm bg-background text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
-                  required
-                />
+                <label className="text-xs font-semibold text-foreground/80 pl-1">Электронная почта</label>
+                <input type="email" placeholder="name@example.com" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2.5 border border-input rounded-xl text-sm bg-background text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm" required />
               </div>
-
-              {/* Поле Telegram */}
               <div className="flex flex-col gap-1">
-                <label className="text-xs font-semibold text-foreground/80 pl-1">
-                  Ваш Telegram
-                </label>
-                <input
-                  type="text"
-                  placeholder="@username"
-                  value={telegram}
-                  onChange={(e) => setTelegram(e.target.value)}
-                  className="w-full px-4 py-2.5 border border-input rounded-xl text-sm bg-background text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
-                  required
-                />
+                <label className="text-xs font-semibold text-foreground/80 pl-1">Ваш Telegram</label>
+                <input type="text" placeholder="@username" value={telegram} onChange={(e) => setTelegram(e.target.value)} className="w-full px-4 py-2.5 border border-input rounded-xl text-sm bg-background text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm" required />
               </div>
-
               {formError && <p className="text-xs text-destructive font-medium pl-1">{formError}</p>}
-
-              {/* Кнопка действия */}
               <button
                 type="submit"
-                className="w-full bg-primary text-primary-foreground font-semibold py-3 rounded-xl text-sm hover:opacity-90 active:scale-[0.98] transition-all shadow-md shadow-primary/10 mt-1"
+                style={{ backgroundColor: '#ECECEC' }}
+                className="w-full text-black font-semibold py-3 rounded-xl text-sm hover:opacity-80 active:scale-[0.98] transition-all shadow-md mt-1"
               >
                 Перейти к оплате через ЮMoney
               </button>
             </form>
-
           </div>
         </div>
       )}
 
-      {/* Подвал с формой обратной связи */}
       <Footer onNavigate={handleFooterNavigate} />
-
       <Lightbox
         media={lightboxMedia}
         currentIndex={lightboxIndex}
