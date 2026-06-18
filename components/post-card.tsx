@@ -41,13 +41,38 @@ interface PostCardProps {
   onMediaClick: (src: string, allMedia: MediaItem[], index: number) => void;
 }
 
+// --- ХУК ДЛЯ СКРОЛЛА ---
+function useDragScroll() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    startX.current = e.pageX - (ref.current?.offsetLeft || 0);
+    scrollLeft.current = ref.current?.scrollLeft || 0;
+  };
+
+  const onMouseLeave = () => setIsDragging(false);
+  const onMouseUp = () => setIsDragging(false);
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - (ref.current?.offsetLeft || 0);
+    const walk = (x - startX.current) * 1.5;
+    if (ref.current) ref.current.scrollLeft = scrollLeft.current - walk;
+  };
+
+  return { ref, isDragging, onMouseDown, onMouseLeave, onMouseUp, onMouseMove };
+}
+
 // --- КОМПОНЕНТ ПРЕВЬЮ ---
 const MediaThumbnail = memo(function MediaThumbnail({ item, onClick }: { item: MediaItem, onClick: () => void }) {
   return (
     <div
       className="relative flex-shrink-0 w-[180px] h-[240px] rounded-xl overflow-hidden cursor-pointer bg-muted border-4 border-white shadow-[0_0_0_1px_#b5b5b5] hover:scale-[1.02] transition-transform"
       onClick={(e) => {
-        e.preventDefault();
         e.stopPropagation();
         onClick();
       }}
@@ -66,7 +91,7 @@ const MediaThumbnail = memo(function MediaThumbnail({ item, onClick }: { item: M
 
 // --- ОСНОВНОЙ КОМПОНЕНТ ---
 export const PostCard = memo(function PostCard({ post, onMediaClick }: PostCardProps) {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const { ref: scrollRef, isDragging, ...dragHandlers } = useDragScroll();
   const toolColors = useMemo(() => ["#93B8E6", "#8A97AC", "#A8A8C0", "#BCCBE0", "#99AACC"], []);
 
   return (
@@ -80,7 +105,7 @@ export const PostCard = memo(function PostCard({ post, onMediaClick }: PostCardP
       )}
 
       <div className="flex-1">
-        {/* Рендер текста с поддержкой HTML-ссылок */}
+        {/* Текст с поддержкой HTML-ссылок */}
         <div 
           className="text-[16px] leading-relaxed text-foreground mb-6 whitespace-pre-line"
           dangerouslySetInnerHTML={{ __html: post.text }}
@@ -97,7 +122,6 @@ export const PostCard = memo(function PostCard({ post, onMediaClick }: PostCardP
 
         {post.footerText && <p className="mt-4 mb-8 text-[16px] text-foreground">{post.footerText}</p>}
 
-        {/* Инструменты с возвращенной анимацией */}
         {post.tools && (
           <div className="flex flex-wrap gap-2 mb-8">
             {post.tools.map((tool, i) => (
@@ -115,7 +139,11 @@ export const PostCard = memo(function PostCard({ post, onMediaClick }: PostCardP
         {post.media && post.media.length > 0 && (
           <div
             ref={scrollRef}
-            className="flex gap-4 overflow-x-auto pb-2 cursor-grab active:cursor-grabbing"
+            {...dragHandlers}
+            className={cn(
+              "flex gap-4 overflow-x-auto pb-2 select-none", 
+              isDragging ? "cursor-grabbing" : "cursor-grab"
+            )}
             style={{ scrollbarWidth: "none" }}
           >
             {post.media.map((item, i) => (
