@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { useState, useCallback, useMemo, memo } from "react"
-import { Preloader } from "@/components/Preloader"
-import { ProfileHeader } from "@/components/profile-header"
-import { TabsNavigation, type TabType } from "@/components/tabs-navigation"
-import { PostCard, type PostData, type MediaItem } from "@/components/post-card"
-import { ContactsPage } from "@/components/contacts-page"
-import { Footer } from "@/components/footer"
-import { Lightbox } from "@/components/lightbox"
+import { useState, useCallback, useMemo, memo } from "react";
+import { Preloader } from "@/components/Preloader";
+import { ProfileHeader } from "@/components/profile-header";
+import { TabsNavigation, type TabType } from "@/components/tabs-navigation";
+import { PostCard, type PostData, type MediaItem } from "@/components/post-card";
+import { ContactsPage } from "@/components/contacts-page";
+import { Footer } from "@/components/footer";
+import { Lightbox } from "@/components/lightbox";
 
 const posts: PostData[] = [
 // В файле page.tsx
@@ -535,86 +535,87 @@ const posts: PostData[] = [
   },
 ]
 
-const MemoizedPostCard = memo(PostCard)
-
 export default function CelestinabluePage() {
-  const [activeTab, setActiveTab] = useState<TabType>("home")
-  const [visibleCount, setVisibleCount] = useState(5)
-  const [lightboxMedia, setLightboxMedia] = useState<MediaItem[]>([])
-  const [lightboxIndex, setLightboxIndex] = useState(0)
-  const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState<TabType>("home");
+  const [visibleCount, setVisibleCount] = useState(5);
+  const [lightboxMedia, setLightboxMedia] = useState<MediaItem[]>([]);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const handleTabChange = useCallback((tab: TabType) => {
-    setActiveTab(tab)
-    setVisibleCount(5)
-    window.scrollTo(0, 0)
-  }, [])
+    setActiveTab(tab);
+    setVisibleCount(5);
+    window.scrollTo(0, 0);
+  }, []);
 
-  const handleMediaClick = useCallback((src: string, allMedia: MediaItem[]) => {
-    setLightboxMedia(allMedia)
-    setLightboxIndex(allMedia.findIndex(m => m.src === src))
-    setLightboxOpen(true)
-  }, [])
+  // ИСПРАВЛЕНИЕ: принимаем index из PostCard
+  const handleMediaClick = useCallback((src: string, allMedia: MediaItem[], index: number) => {
+    setLightboxMedia(allMedia);
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  }, []);
 
   const filteredPosts = useMemo(() => {
     return activeTab === "home" || activeTab === "contacts"
       ? posts
-      : posts.filter(post => post.category === activeTab)
-  }, [activeTab])
+      : posts.filter(post => post.category === activeTab);
+  }, [activeTab]);
 
-return ( 
-    <div className="max-w-[800px] mx-auto border-x border-border min-h-screen bg-background"> 
-      <Preloader /> 
+  return (
+    <div className="max-w-[800px] mx-auto border-x border-border min-h-screen bg-background">
+      <Preloader />
       
-      <div className="p-4 pb-0"> 
+      <div className="p-4 pb-0">
         <img 
           src="/images/banner.webp" 
           alt="Celestinablue banner" 
           className="w-full h-auto rounded-2xl shadow-xl border border-black" 
           loading="eager" 
-        /> 
-      </div> 
+        />
+      </div>
 
-      <ProfileHeader /> 
-      <TabsNavigation activeTab={activeTab} onTabChange={handleTabChange} /> 
+      <ProfileHeader />
+      <TabsNavigation activeTab={activeTab} onTabChange={handleTabChange} />
 
-      <main> 
-        {activeTab === "contacts" ? ( 
-          <ContactsPage /> 
-        ) : ( 
-          <div> 
-            {filteredPosts.slice(0, visibleCount).map(post => ( 
-              <MemoizedPostCard 
-                key={post.id} 
-                post={post} 
-                onMediaClick={handleMediaClick} 
-              /> 
-            ))} 
+      <main>
+        {activeTab === "contacts" ? (
+          <ContactsPage />
+        ) : (
+          <div>
+            {filteredPosts.slice(0, visibleCount).map(post => (
+              <PostCard
+                key={post.id}
+                post={post}
+                onMediaClick={handleMediaClick}
+              />
+            ))}
             
-            {visibleCount < filteredPosts.length && ( 
-              <div className="p-6 text-center"> 
-                <button  
+            {visibleCount < filteredPosts.length && (
+              <div className="p-6 text-center">
+                <button 
                   onClick={() => setVisibleCount(prev => prev + 5)} 
                   className="px-4 py-2 bg-[#93C3EF] text-white rounded-full hover:bg-[#7db1e8] transition" 
-                > 
-                  Загрузить еще 
-                </button> 
-              </div> 
-            )} 
-          </div> 
-        )} 
-      </main> 
+                >
+                  Загрузить еще
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </main>
 
-      <Footer onNavigate={handleTabChange} /> 
+      <Footer onNavigate={handleTabChange} />
 
       <Lightbox 
         media={lightboxMedia} 
         currentIndex={lightboxIndex} 
         isOpen={lightboxOpen} 
         onClose={() => setLightboxOpen(false)} 
-        onNext={() => setLightboxIndex((lightboxIndex + 1) % lightboxMedia.length)} 
-        onPrev={() => setLightboxIndex((lightboxIndex - 1 + lightboxMedia.length) % lightboxMedia.length)} 
-      /> 
-    </div> 
-  ) 
+        // ИСПРАВЛЕНИЕ: используем функциональное обновление состояния (prev), 
+        // чтобы избежать проблем с замыканием и устаревшими данными
+        onNext={() => setLightboxIndex((prev) => (prev + 1) % lightboxMedia.length)}
+        onPrev={() => setLightboxIndex((prev) => (prev - 1 + lightboxMedia.length) % lightboxMedia.length)}
+      />
+    </div>
+  );
 }
